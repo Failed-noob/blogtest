@@ -8,7 +8,10 @@
         <img src="@/assets/dusk.jpg" alt="加载中...">
         <span :title="username">{{username}}</span>
       </div>
-      <p class="exit" @click="exit">退出登录</p>
+      <transition name="slide">
+       <p v-show="isAppear" class="exit" @click="exit">退出登录</p>
+      </transition>
+     
     </div>
     <div class="foot">
       <Tabbar />
@@ -23,11 +26,17 @@ export default {
   data(){
     return{
       title:this.$route.path.split('/')[this.$route.path.split('/').length-1],
-      username:''
+      username:'',
+      isAppear:false
     }
   },
   created(){
-    this.username = localStorage.username
+    console.log(localStorage.username)
+    this.$nextTick(()=>{
+      this.username = localStorage.username;
+     
+      this.isAppear = true
+    })
   },
   components:{
     Tabbar,
@@ -53,6 +62,31 @@ export default {
   position: absolute;
   top: 3rem;
 }
+@keyframes bounce-in {
+  0% {
+    opacity 0
+    transform translateX(10px)
+    // transform: scale(0);
+  }
+  20%{
+     background green
+  }
+  50% {
+     transform translateX(0px)
+  
+  }
+  60%{
+      transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.slide-enter
+  transform translateX(20px)
+  opacity 0
+.slide-enter-active
+  animation bounce-in 1s ease
 .user
   width 100%
   height 8rem
@@ -78,7 +112,7 @@ export default {
   height 3rem
   margin 1.2rem auto
   text-align center
-  background red
+  background #FC5531
   line-height 3rem
   color #eee
   border-radius .5rem

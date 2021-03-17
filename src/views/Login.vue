@@ -142,6 +142,7 @@ export default {
       } else {
         this.loginOK = data.data.loginOK;
         sessionStorage.loginToken = '1';
+        localStorage.setItem('username',this.userName)
         this.loadStatus = true;
         this.$router.push('/')
        
